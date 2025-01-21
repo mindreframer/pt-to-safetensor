@@ -1,5 +1,4 @@
 import torch
-from safetensors.torch import load_file
 from safetensors.torch import save_file
 
 def rename(name: str):
@@ -31,12 +30,15 @@ def rename(name: str):
     name = name.replace("model.22.", "head.")
     return name
 
-data = torch.load("yolov8n-doclaynet.pt")
+model_name = "models_in/yolov8s.pt"
+output_name = "models_out/yolov8s.safetensors"
+
+data = torch.load(model_name)
 # print(data)
 tensors = data['model'].state_dict().items()
 tensors = dict(tensors)
 tensors = {rename(k): t for k, t in tensors.items()}
 print(data["model"])
-save_file(tensors, "yolov8n-doclaynet.safetensors")
+save_file(tensors, output_name)
 # for k, v in tensors.items():
 #     print(str(k), v.shape)
