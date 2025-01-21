@@ -1,0 +1,13 @@
+[project]
+name = "pt-to-safetensors"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "doclayout-yolo>=0.0.2",
+    "safetensors>=0.5.2",
+    "torch>=2.5.1",
+    "tqdm>=4.67.1",
+    "ultralytics>=8.3.64",
+]
