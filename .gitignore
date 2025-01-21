@@ -10,4 +10,7 @@ wheels/
 .venv
 
 ## models
-models/
+models_in
+models_out
+models_ref
+
