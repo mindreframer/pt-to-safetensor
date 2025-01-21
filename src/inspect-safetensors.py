@@ -1,22 +1,29 @@
-import safetensors
+import os
 from safetensors import safe_open
 
-# Path to your safetensors file
-file_path = "yolov8s.safetensors"
+def inspect_safetensors(file_path):
+    # Create directories if they don't exist
+    os.makedirs('tmp', exist_ok=True)
+    log_base_file = file_path.replace('/', "__") + ".log"
+    log_path = os.path.join('tmp', log_base_file)
 
-# Method 1: Using `safe_open` as a context manager
-with safe_open(file_path, framework="pt") as f:
-    # Iterate through each tensor in the file
-    for tensor_name in f.keys():
-        tensor = f.get_tensor(tensor_name)
+    with safe_open(file_path, framework="pt") as f, open(log_path, 'w') as log:
+        # Iterate through each tensor in the file
+        for tensor_name in f.keys():
+            tensor = f.get_tensor(tensor_name)
 
-        # Print tensor name and shape
-        print(f"Tensor Name: {tensor_name}")
-        print(f"Shape: {tensor.shape}")
-        print(f"Data Type: {tensor.dtype}")
+            # Write tensor name and shape to file
+            log.write(f"Tensor Name: {tensor_name}\n")
+            log.write(f"Shape: {tensor.shape}\n")
+            log.write(f"Data Type: {tensor.dtype}\n")
 
-        # Optionally, print the first few elements of the tensor
-        print("First 5 elements:")
-        print(tensor.flatten()[:5])
+            # Write first few elements of the tensor
+            log.write("First 5 elements:\n")
+            log.write(f"{tensor.flatten()[:5]}\n")
 
-        print("-" * 40)
+            log.write("-" * 40 + "\n")
+
+
+
+inspect_safetensors("models_ref/yolov8s.safetensors")
+inspect_safetensors("models_out/yolov8s.safetensors")
